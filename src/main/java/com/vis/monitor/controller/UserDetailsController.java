@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class UserDetailsController {
 
-    private final UserDetailsService userDetailsService;  
+    private final UserDetailsService userDetailsService;
 
     @Autowired
     public UserDetailsController(UserDetailsService userDetailsService) {

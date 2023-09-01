@@ -19,6 +19,9 @@ public class EmailServiceImpl implements EmailService {
     public Boolean sendEmail(String to, String subject, String message) {
         Boolean isSent = false;
         try{
+            System.out.println("Email Service | Sending Mail | To : "+to);
+            System.out.println("Email Service | Sending Mail | Subject : "+subject);
+            System.out.println("Email Service | Sending Mail | Message : "+message);
 
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(senderMail);
