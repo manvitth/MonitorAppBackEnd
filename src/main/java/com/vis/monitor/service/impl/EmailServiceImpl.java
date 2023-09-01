@@ -15,6 +15,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+    
     @Override
     public Boolean sendEmail(String to, String subject, String message) {
         Boolean isSent = false;
