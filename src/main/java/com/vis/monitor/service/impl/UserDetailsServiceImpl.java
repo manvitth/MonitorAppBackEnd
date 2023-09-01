@@ -54,11 +54,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         userDetailsRepository.deleteById(id);
     }
 
-
-
-    
-    //delete this 
-    
+  
 	}
 
 
