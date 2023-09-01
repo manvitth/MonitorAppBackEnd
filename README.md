@@ -7,7 +7,7 @@ HENCE SAME IPADDRESS AND PORT NO IS ADDED IN BOTH TABLES WITH SAME ID
 Scheduler = 1 sec
 
 JSON BODY 
-Eg: /addDetails
+Eg: /adddetails
 
 {
   "token_id": "abcdefghijk1234567",
