@@ -2,8 +2,8 @@ package com.vis.monitor.controller;
 
 
 
-import com.vis.monitor.modal.IpPort;
-import com.vis.monitor.service.IpPortService;
+import com.vis.monitor.modal.Server;
+import com.vis.monitor.service.ServerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,29 +14,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 
-public class IpPortController {
-    private final IpPortService ipPortService;
+public class ServerController {
+	
+	@Autowired
+    private ServerService sService;
 
-    @Autowired
-    public IpPortController(IpPortService ipPortService) {
-        this.ipPortService = ipPortService;
+    
+    @PostMapping("/add-server")
+    public ResponseEntity<Server> addServer(@RequestBody Server server) {
+        Server addedServer = sService.addServer(server);
+        return ResponseEntity.ok(addedServer);
+    }
+    
+    @PutMapping("/update-server")
+    public ResponseEntity<Server> updateServer(@RequestBody Server server) {
+        Server addedServer = sService.updateServer(server);
+        return ResponseEntity.ok(addedServer);
     }
 
-    @PostMapping("/addipport")
-    public ResponseEntity<IpPort> addIpPort(@RequestBody IpPort ipPort) {
-        IpPort addedIpPort = ipPortService.addIpPort(ipPort);
-        return ResponseEntity.ok(addedIpPort);
+    @GetMapping("/get-servers")
+    public ResponseEntity<List<Server>> getServers() {
+        List<Server> servers = sService.getServers();
+        return ResponseEntity.ok(servers);
     }
 
-    @GetMapping("/getipport")
-    public ResponseEntity<List<IpPort>> getAllIpPorts() {
-        List<IpPort> ipPorts = ipPortService.getAllIpPorts();
-        return ResponseEntity.ok(ipPorts);
-    }
-
-    @DeleteMapping("/deleteipport/{id}")
-    public ResponseEntity<Void> deleteIpPort(@PathVariable Long id) {
-        ipPortService.deleteIpPort(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/delete-server/{id}")
+    public ResponseEntity<Server> deleteIpPort(@PathVariable Long id) {
+        Server deletedServer = sService.deleteServer(id);
+        return ResponseEntity.ok(deletedServer);
     }
 }

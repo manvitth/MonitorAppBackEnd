@@ -1,21 +1,20 @@
 package com.vis.monitor.service;
 
-
-
-import com.vis.monitor.modal.UserDetails;
-
 import java.util.List;
-import java.util.Optional;
 
-public interface UserDetailsService {
+import com.vis.monitor.modal.User;
 
-    UserDetails addUserDetails(UserDetails userDetails);
 
-    Optional<UserDetails> getUserDetailsById(long id);
+public interface UserService {  
+	
+	public User addUser(User user);
+	
+	public User updateUser(User user);
+	
+	public List<User> getUsers();
+	
+	public User getUser(Long id);
+	
+	public User deleteUser(Long id);
 
-    List<UserDetails> getAllUserDetails();
-
-    void deleteUserDetails(long id);
-
-    
 }

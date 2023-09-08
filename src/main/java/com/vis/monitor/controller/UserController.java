@@ -1,7 +1,7 @@
 package com.vis.monitor.controller;
 
-import com.vis.monitor.modal.UserDetails;
-import com.vis.monitor.service.UserDetailsService;  
+import com.vis.monitor.modal.User;
+import com.vis.monitor.service.UserService;  
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,31 +11,36 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class UserDetailsController {
+public class UserController {
 
-    private final UserDetailsService userDetailsService;
+	@Autowired
+    private UserService userService;
 
-    @Autowired
-    public UserDetailsController(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+   
 
-    @PostMapping("/adddetails")
-    public ResponseEntity<UserDetails> addUserDetails(@RequestBody UserDetails userDetails) {
-        UserDetails savedUserDetails = userDetailsService.addUserDetails(userDetails); 
+    @PostMapping("/add-user")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        User savedUser = userService.addUser(user); 
         
-        return new ResponseEntity<>(savedUserDetails, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+    
+    @PutMapping("/update-user")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        User savedUser = userService.updateUser(user); 
+        
+        return new ResponseEntity<>(savedUser, HttpStatus.OK);
     }
 
-    @GetMapping("/getdetails")
-    public ResponseEntity<List<UserDetails>> getAllUserDetails() {
-        List<UserDetails> userDetailsList = userDetailsService.getAllUserDetails();  
-        return new ResponseEntity<>(userDetailsList, HttpStatus.OK);
+    @GetMapping("/get-users")
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userService.getUsers();  
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @DeleteMapping("/deletedetails/{id}")
-    public ResponseEntity<Void> deleteUserDetails(@PathVariable long id) {
-        userDetailsService.deleteUserDetails(id);  // Use the service method
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("/delete-user/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
+        User dUser = userService.deleteUser(id);
+        return new ResponseEntity<>(dUser, HttpStatus.OK);
     }
 }

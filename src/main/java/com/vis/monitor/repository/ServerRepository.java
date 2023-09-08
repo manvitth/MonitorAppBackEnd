@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IpPortRepository extends JpaRepository<IpPort, Long> {
+public interface ServerRepository extends JpaRepository<Server, Long> {
 }
