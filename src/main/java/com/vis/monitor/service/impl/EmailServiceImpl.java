@@ -15,6 +15,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+    
     @Override
     public Boolean sendEmail(String to, String subject, String message) {
         Boolean isSent = false;
@@ -38,4 +39,29 @@ public class EmailServiceImpl implements EmailService {
         }
         return isSent;
     }
+
+
+
+@Override
+public Boolean sendEmailNotified(String to, String subject, String message) {
+    Boolean isSent = false;
+    try{
+        System.out.println("Email Service | Sending Mail | To : "+to);
+        System.out.println("Email Service | Sending Mail | Subject : "+subject);
+        System.out.println("Email Service | Sending Mail | Message : "+message);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(senderMail);
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
+
+        javaMailSender.send(mailMessage);
+
+    }catch(Exception ex){
+        System.out.println("Email Service | Exception : "+ex.getMessage());
+        ex.printStackTrace();
+    }
+    return isSent;
+}
 }
