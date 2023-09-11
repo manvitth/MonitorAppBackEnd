@@ -12,15 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "monitor_requests")
 public class MonitorRequest {
-
-	@Id
+   @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "mrIdSeq")
 	private Long id;
 
