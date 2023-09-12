@@ -1,5 +1,6 @@
 package com.vis.monitor.controller;
 
+import com.vis.monitor.dto.LoginDTO;
 import com.vis.monitor.modal.User;
 import com.vis.monitor.service.UserService;  
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,16 @@ public class UserController {
     public ResponseEntity<User> deleteUser(@PathVariable Long id) {
         User dUser = userService.deleteUser(id);
         return new ResponseEntity<>(dUser, HttpStatus.OK);
+    }
+    
+    @PostMapping("/login")
+    public ResponseEntity<User> loginUser(@RequestBody LoginDTO login) {
+    	User dUser = userService.loginUser(login);
+    	
+    	if(dUser != null) {
+	    	return new ResponseEntity<>(dUser, HttpStatus.OK);
+        }else {
+        	return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
     }
 }

@@ -43,7 +43,7 @@ public class ScheduleTask {
 	
 	private Map<Server, Boolean> prvState = new HashMap<>();
 
-	@Scheduled(fixedDelay = 1000)
+//	@Scheduled(fixedDelay = 1000)
 	public void checkIpPortsAndSendEmails() {
 		
 		log.info("Scheduled task to monitor IP and Port started.");

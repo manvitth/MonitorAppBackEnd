@@ -1,5 +1,6 @@
 package com.vis.monitor.service.impl;
 
+import com.vis.monitor.dto.LoginDTO;
 import com.vis.monitor.modal.User;
 import com.vis.monitor.repository.UserRepository;
 import com.vis.monitor.service.UserService;
@@ -49,6 +50,18 @@ public class UserServiceImpl implements UserService {
 			uRepo.deleteById(id);
 		}
 		return oUser.isPresent() ? oUser.get() : null; 
+	}
+
+	@Override
+	public User loginUser(LoginDTO login) {
+		// TODO Auto-generated method stub
+		
+		String eMail = login.getUsername();
+		String password = login.getPassword();
+		
+		Optional<User> oUser = uRepo.findByeMailAndPassword(eMail, password);
+		
+		return oUser.isPresent() ? oUser.get() : null;
 	}
 
 
