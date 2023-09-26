@@ -38,6 +38,21 @@ public class ServerController {
         return ResponseEntity.ok(servers);
     }
 
+
+    @GetMapping("/get-server/{id}")
+    public ResponseEntity<Server> getServerById(@PathVariable Long id) {
+        Server server = sService.getServer(id);
+        if (server != null) {
+            return ResponseEntity.ok(server);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+
+
+    
+    
     @DeleteMapping("/delete-server/{id}")
     public ResponseEntity<Server> deleteIpPort(@PathVariable Long id) {
         Server deletedServer = sService.deleteServer(id);

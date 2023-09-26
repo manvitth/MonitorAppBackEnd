@@ -43,7 +43,7 @@ public class ScheduleTask {
 	
 	private Map<Server, Boolean> prvState = new HashMap<>();
 
-//	@Scheduled(fixedDelay = 1000)
+	@Scheduled(fixedDelay = 1000)		
 	public void checkIpPortsAndSendEmails() {
 		
 		log.info("Scheduled task to monitor IP and Port started.");
@@ -152,6 +152,9 @@ public class ScheduleTask {
 				monitorStatus.setUser(user);
 				monitorStatus.setIsSent(isSent);
 				monitorStatus.setSentAt(new Date());
+				monitorStatus.setServer(server);
+
+				
 
 				log.info("Email notification sent to {} successfully.", user);
 				
@@ -163,6 +166,7 @@ public class ScheduleTask {
 				monitorStatus.setUser(user);
 				monitorStatus.setIsSent(isSent);
 				monitorStatus.setSentAt(new Date());
+				monitorStatus.setServer(server);
 
 				
 			}
@@ -193,6 +197,8 @@ public class ScheduleTask {
 				monitorStatus.setUser(user);
 				monitorStatus.setIsSent(isSent);
 				monitorStatus.setSentAt(new Date());
+				monitorStatus.setServer(server);
+
 
 				msService.addMonitorStatus(monitorStatus);
 
@@ -205,6 +211,8 @@ public class ScheduleTask {
 				monitorStatus.setUser(user);
 				monitorStatus.setIsSent(isSent);
 				monitorStatus.setSentAt(new Date());
+				monitorStatus.setServer(server);
+
 
 				msService.addMonitorStatus(monitorStatus);
 			}

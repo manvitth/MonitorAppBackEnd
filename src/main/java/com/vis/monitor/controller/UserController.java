@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -38,6 +41,12 @@ public class UserController {
         List<User> users = userService.getUsers();  
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+    
+    @GetMapping("/get-user/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        User dUser = userService.getUser(id);
+        return new ResponseEntity<>(dUser, HttpStatus.OK);
+    }
 
     @DeleteMapping("/delete-user/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Long id) {
@@ -46,11 +55,19 @@ public class UserController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<User> loginUser(@RequestBody LoginDTO login) {
+    public ResponseEntity<User> loginUser(HttpServletResponse response, @RequestBody LoginDTO login) {
     	User dUser = userService.loginUser(login);
-    	
+
     	if(dUser != null) {
-	    	return new ResponseEntity<>(dUser, HttpStatus.OK);
+    		Cookie cookie = new Cookie("User", String.valueOf(dUser.getId()));
+    		
+//    		cookie.setHttpOnly(Boolean.TRUE);
+    		cookie.setPath("/");
+    		cookie.setMaxAge(1800);
+    		
+    		response.addCookie(cookie);
+    		
+	    	return new ResponseEntity<User>(dUser, HttpStatus.OK);
         }else {
         	return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }

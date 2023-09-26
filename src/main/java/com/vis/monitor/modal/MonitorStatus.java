@@ -21,6 +21,10 @@ public class MonitorStatus {
     @OneToOne(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
+    
+	@OneToOne(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "serverId", referencedColumnName = "id")
+	private Server server;
 
     private Boolean isSent; 
 
