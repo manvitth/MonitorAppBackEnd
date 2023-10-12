@@ -36,7 +36,7 @@ public class MonitorRequestController {
         return new ResponseEntity<>(monitorRequests, HttpStatus.OK);
     }
     
-    @GetMapping("/get-monitor-requests/{id}")
+    @GetMapping("/get-monitor-request/{id}")
     public ResponseEntity<MonitorRequest> getMonitorRequest(@PathVariable Long id) {
         MonitorRequest monitorRequest = mrService.getMonitorRequest(id);  
         return new ResponseEntity<>(monitorRequest, HttpStatus.OK);

@@ -26,6 +26,8 @@ public class User {
 
 	private String name; 
 
+	private String phoneNumber;
+	
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	
