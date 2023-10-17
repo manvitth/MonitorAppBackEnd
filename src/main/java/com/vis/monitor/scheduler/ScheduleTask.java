@@ -1,6 +1,7 @@
 
 package com.vis.monitor.scheduler;
 
+import com.sun.management.OperatingSystemMXBean;
 import com.vis.monitor.modal.MonitorRequest;
 import com.vis.monitor.modal.Server;
 import com.vis.monitor.modal.User;
@@ -17,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
@@ -43,7 +45,7 @@ public class ScheduleTask {
 	
 	private Map<Server, Boolean> prvState = new HashMap<>();
 
-	@Scheduled(fixedDelay = 1000)		
+	@Scheduled(fixedDelay = 10000)		
 	public void checkIpPortsAndSendEmails() {
 		
 		log.info("Scheduled task to monitor IP and Port started.");
@@ -122,7 +124,63 @@ public class ScheduleTask {
 			return false;
 		}
 	}
+	
+	
+	
+	//checing cpu ram
 
+	 @Scheduled(fixedDelay = 10000)
+	    public void checkSystemMetrics() {
+	        log.info("Scheduled task to monitor system metrics (RAM and CPU) started.");
+
+	        // Check RAM and CPU usage
+	        double cpuUsage = getCpuUsage();
+	        long totalRAM = getTotalRAM();
+	        long freeRAM = getFreeRAM();
+	        
+	        long totalMemory = getTotalMemory();
+	        long usedMemory = getUsedMemory();
+	        
+	    
+	        log.info("CPU Usage: {}%, Total RAM: {} bytes, Free RAM: {} bytes, Total Memory: {} bytes, Used Memory: {} bytes", 
+	                cpuUsage, totalRAM, freeRAM, totalMemory, usedMemory);
+
+	            log.info("Scheduled task to monitor system metrics (RAM and CPU) completed.");
+	        }
+
+
+	    // Method to check CPU usage
+	    private double getCpuUsage() {
+	        OperatingSystemMXBean osBean = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+	        return osBean.getSystemCpuLoad() * 100.0;
+	    }
+
+	    // Method to check total RAM
+	    private long getTotalRAM() {
+	        Runtime runtime = Runtime.getRuntime();
+	        return runtime.totalMemory();
+	    }
+
+	    // Method to check free RAM
+	    private long getFreeRAM() {
+	        Runtime runtime = Runtime.getRuntime();
+	        return runtime.freeMemory();
+	    }
+	    
+	    // Method to check total memory
+        private long getTotalMemory() {
+            OperatingSystemMXBean osBean = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+            return osBean.getTotalPhysicalMemorySize();
+        }
+
+        // Method to check used memory
+        private long getUsedMemory() {
+            OperatingSystemMXBean osBean = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+            return osBean.getTotalPhysicalMemorySize() - osBean.getFreePhysicalMemorySize();
+        }
+	    
+	    
+	    
 	private void sendPortNotReachableEmail(User user, Server server) {
 
 		List<MonitorStatus> monitorStatuses = msService.getMonitorStatusesByUser(user);

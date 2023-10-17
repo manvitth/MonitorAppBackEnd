@@ -38,6 +38,16 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		
+	<dependency>
+    <groupId>com.vis</groupId>
+    <artifactId>sigar</artifactId>
+    <version>1.6.4</version>
+    <scope>system</scope>
+    <systemPath>C:\Users\User\Desktop\MONITOR APP MAIN\MonitorApp\lib/sigar-1.6.4.jar</systemPath>
+</dependency>
+
+
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
