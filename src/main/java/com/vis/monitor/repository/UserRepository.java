@@ -11,5 +11,7 @@ import com.vis.monitor.modal.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	
 	Optional<User> findByeMailAndPassword(String eMail, String password);
+	
+	Optional<User> findByNameAndPassword(String name, String password);
    
 }

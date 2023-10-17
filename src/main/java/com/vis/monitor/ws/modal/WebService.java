@@ -39,19 +39,19 @@ public class WebService {
 	
 	private Integer timeout = 10;
 	
-	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
+	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE, CascadeType.ALL})
     @JoinColumn(name = "parameters", referencedColumnName = "id")
 	private List<KeyValue> parameters;
 	
-	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
+	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE, CascadeType.ALL})
     @JoinColumn(name = "headers", referencedColumnName = "id")
 	private List<KeyValue> headers;
 	
-	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
+	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE, CascadeType.ALL})
     @JoinColumn(name = "requestData", referencedColumnName = "id")
 	private List<Data> requestData;
 	
-	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
+	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE, CascadeType.ALL})
     @JoinColumn(name = "responseData", referencedColumnName = "id")
 	private List<Data> responseData;
 	

@@ -26,9 +26,11 @@ public class Data {
 	
 	private String name;
 	
+	private String description;
+	
 	private String type;
 	
-	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
+	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE, CascadeType.ALL})
     @JoinColumn(name = "data_values", referencedColumnName = "id")
 	private List<Value> dataValues;
 	

@@ -1,13 +1,14 @@
 
 package com.vis.monitor.scheduler;
 
-import com.sun.management.OperatingSystemMXBean;
 import com.vis.monitor.modal.MonitorRequest;
 import com.vis.monitor.modal.Server;
+import com.vis.monitor.modal.ServerStatus;
 import com.vis.monitor.modal.User;
 import com.vis.monitor.service.EmailService;
 import com.vis.monitor.service.MonitorRequestService;
 import com.vis.monitor.service.MonitorStatusService;
+import com.vis.monitor.service.ServerStatusService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -23,6 +24,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.transaction.Transactional;
 
@@ -39,6 +41,9 @@ public class ScheduleTask {
 	
 	@Autowired
 	private MonitorStatusService msService;
+	
+	@Autowired
+	private ServerStatusService ssService;
 	
 	@Autowired
 	private EmailService emailService;
@@ -58,11 +63,29 @@ public class ScheduleTask {
 		
 			boolean isReachable = checkIpAddressAndPort(server);
 			
-			boolean wasReachable = prvState.getOrDefault(monitorRequest, true);
+			boolean wasReachable = true;
+			
+			if(prvState.containsKey(server)) { 
+				wasReachable = prvState.get(server); 
+			} else { 
+				ServerStatus sStatus = ssService.getTopServerStatusByServer(server);
+				wasReachable = sStatus.getUpAt() != null;
+			}
 
 			if (!isReachable && wasReachable) {
 				log.warn("IP {} and Port {} are not reachable.", server.getHost(), server.getPort());
 				
+				ServerStatus sStatus = ssService.getServerStatusByServer(server);
+				
+				if(sStatus == null ) {
+				
+					sStatus = new ServerStatus();
+					
+					sStatus.setServer(server);
+					sStatus.setDownAt(new Date());
+				
+					ssService.addServerStatus(sStatus);
+				}
 				List<User> users = monitorRequest.getUsers(); 
 
 				if (users != null) {
@@ -79,6 +102,21 @@ public class ScheduleTask {
 				
 				log.info("IP {} and Port {} are reachable again.", server.getHost(), server.getPort());
 
+				ServerStatus sStatus = ssService.getServerStatusByServer(server);
+				
+				if(sStatus != null && sStatus.getUpAt() == null) {
+				
+					Date upAt = new Date();
+					
+					sStatus.setUpAt(upAt);
+					
+					long diffInMillies = Math.abs(upAt.getTime() - sStatus.getDownAt().getTime());
+				    long duration = TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+				    
+				    sStatus.setDuration(duration);
+				    
+					ssService.updateServerStatus(sStatus);
+				}
 				List<User> users = monitorRequest.getUsers();
 				
 				if (users != null) {
@@ -92,7 +130,7 @@ public class ScheduleTask {
 				}
 			}
 
-			prvState.put(monitorRequest.getServer(), isReachable);
+			prvState.put(server, isReachable);
 		}
 
 		log.info("Scheduled task to monitor IP and Port completed.");

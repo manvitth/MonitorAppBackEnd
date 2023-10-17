@@ -56,10 +56,14 @@ public class UserServiceImpl implements UserService {
 	public User loginUser(LoginDTO login) {
 		// TODO Auto-generated method stub
 		
-		String eMail = login.getUsername();
+		String eMailOrName = login.getUsername();
 		String password = login.getPassword();
 		
-		Optional<User> oUser = uRepo.findByeMailAndPassword(eMail, password);
+		Optional<User> oUser = uRepo.findByeMailAndPassword(eMailOrName, password);
+		
+		if(oUser == null || !oUser.isPresent()) {
+			oUser = uRepo.findByNameAndPassword(eMailOrName, password);
+		}
 		
 		return oUser.isPresent() ? oUser.get() : null;
 	}
