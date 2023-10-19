@@ -43,7 +43,14 @@ public class MonitorAppApplication implements CommandLineRunner {
 				user.setPhoneNumber("9999999999");
 
 				uService.addUser(user);
+				
 			}
+			
+			String property = System.getProperty("java.library.path");
+			String path = this.getClass().getClassLoader().getResource(".").getPath();
+			path = path + "lib";
+			System.out.println("Path : "+path);
+			System.setProperty("java.library.path", path + ";" + property);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
