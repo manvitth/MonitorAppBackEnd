@@ -15,8 +15,8 @@ EXPOSE 9090
 
 # Define environment variables for MySQL connection
 ENV DB_URL=jdbc:mysql://localhost:3306/monitor_app
-ENV DB_USERNAME=root
-ENV DB_PASSWORD=root
+ENV DB_USERNAME=admin
+ENV DB_PASSWORD=Admin@12345$
 
 # Use a non-root user
 RUN adduser -D nonrootuser
